@@ -48,6 +48,7 @@
                                 <th>Layanan</th>
                                 <th>Hair Stylist</th>
                                 <th>Treatment</th>
+                                <th>Tanggal</th>
                                 <th>Jam</th>
                                 <th>Total</th>
                                 <th>Opsi</th>
@@ -63,6 +64,7 @@
                                 <td>{{$booking_cut->layanan->nama_layanan ?? 'data tidak ada'}}</td>
                                 <td>{{$booking_cut->stylist->nama ?? 'data tidak ada'}}</td>
                                 <td>{{$booking_cut->treatment->nama_treatment ?? 'data tidak ada'}}</td>
+                                <td>{{$booking_cut->tanggal ?? 'data tidak ada'}}</td>
                                 <td>{{$booking_cut->jam ?? 'data tidak ada'}}</td>
                                 <td>{{$booking_cut->total ?? 'data tidak ada'}}</td>
                                 <td>

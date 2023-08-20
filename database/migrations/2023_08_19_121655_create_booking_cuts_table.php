@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('layanan_id');
             $table->unsignedBigInteger('stylist_id');
             $table->unsignedBigInteger('treatment_id');
-            $table->double('jam');
+            $table->date('tanggal');
             $table->integer('total');
             $table->timestamps();
 

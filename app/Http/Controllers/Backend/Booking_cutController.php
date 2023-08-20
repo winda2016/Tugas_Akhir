@@ -47,6 +47,7 @@ class Booking_cutController extends Controller
             'layanan' => 'required',
             'hairstylist' => 'required',
             'treatment' => 'required',
+            'tanggal' => 'required',
             'jam' => 'required',
             'total' => 'required',
         ]);
@@ -55,7 +56,7 @@ class Booking_cutController extends Controller
         $bookingcut->nama_course = $request->input('nama_course');
         $bookingcut->harga = $request->input('harga');
         $bookingcut->save();
-            
+
         // Sesuaikan dengan logika autentikasi atau pengalihan halaman setelah pendaftaran berhasil
         return redirect('course')->with('success', 'data berhasil ditambahkan.');
     }

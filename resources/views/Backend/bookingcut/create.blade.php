@@ -51,6 +51,10 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="exampleInputUsername1">Tanggal</label>
+                            <input type="date" autofocus required class="form-control" name="tanggal" placeholder="Masukan Tanggal Booking...">
+                        </div>
+                        <div class="form-group">
                             <label for="exampleInputUsername1">Jam</label>
                             <input type="time" autofocus required class="form-control" name="jam" placeholder="Masukan Jam Booking...">
                         </div>
