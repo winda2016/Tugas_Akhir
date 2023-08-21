@@ -19,6 +19,10 @@
                                 <label for="exampleInputUsername1">Nama Layanan</label>
                                 <input type="text" autofocus required class="form-control" name="nama_layanan" value="{{$layanan->nama_layanan}}" placeholder="Masukan Nama Layanan...">
                             </div>
+                            <div class="form-group">
+                                <label for="exampleInputUsername1">Gambar</label>
+                                <input type="file" autofocus required class="form-control" name="gambar" value="{{$layanan->gambar}}" placeholder="Masukan Nama Layanan...">
+                            </div>
                             <button type="submit" class="btn btn-primary mt-1 mr-2"><i class="mdi mdi-content-save-all"></i> Update Data</button>
                         </form>
                     </div>

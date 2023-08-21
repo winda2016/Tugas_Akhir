@@ -77,5 +77,4 @@
     <script src="{!! asset('/backend/vendor/jquery-easing/jquery.easing.min.js') !!}"></script>
     <script src="{!! asset('/backend/js/ruang-admin.min.js') !!}"></script>
 </body>
-
 </html>

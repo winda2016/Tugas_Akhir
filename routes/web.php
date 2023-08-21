@@ -84,3 +84,5 @@ Route::resource('/angkatan', AngkatanController::class)->middleware('auth');
 
 //Booking Hair Cut
 Route::resource('/bookingcut', Booking_cutController::class)->middleware('auth');
+
+Route::post('booking-cut', [FrontendController::class,'booking_cut']);

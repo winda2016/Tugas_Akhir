@@ -52,7 +52,7 @@
                                 <img class="text-center" src="images/HA.png" width="220" height="220">
                             </div>
                         </div>
-                        <p class="button text-center"><a href="/academy" class="btn btn-primary px-4 py-3">Pilih</a></p>
+                        <p class="button text-center"><a href="/" class="btn btn-primary px-4 py-3">Pilih</a></p>
                     </div>
                 </div>
                 <div class="col-lg-6 ftco-animate">

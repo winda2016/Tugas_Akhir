@@ -45,6 +45,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Layanan</th>
+                                <th>Gambar</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -53,6 +54,9 @@
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$layanan->nama_layanan ?? 'data tidak ada'}}</td>
+                                <td>
+                                    <img src="{{ asset('images/'.$layanan->gambar)}}" alt="" width="50" height="50">
+                                </td>
                                 <td>
                                     <a href="/layanan/{{$layanan->id}}/edit" class="btn btn-primary btn-sm"> Edit </a>
                                     <form action="/layanan/{{$layanan->id}}" method="POST" style="display: inline;">
@@ -63,7 +67,7 @@
                                 </td>
                             </tr>
                             @empty
-                            <td colspan="3"> data tidak ada
+                            <td colspan="2"> data tidak ada
                             </td>
                             @endforelse
                         </tbody>

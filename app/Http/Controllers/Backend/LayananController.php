@@ -36,10 +36,18 @@ class LayananController extends Controller
     {
         $request->validate([
             'nama_layanan' => 'required',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif',
         ]);
+
+        if ($request->hasFile('gambar')) {
+            $image = $request->file('gambar');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+        }
 
         $layanan = new Layanan();
         $layanan->nama_layanan = $request->input('nama_layanan');
+        $layanan->gambar = $imageName;
         $layanan->save();
 
         // Sesuaikan dengan logika autentikasi atau pengalihan halaman setelah pendaftaran berhasil
@@ -60,7 +68,9 @@ class LayananController extends Controller
     public function edit(string $id)
     {
         $layanan = Layanan::find($id);
-        return view('backend.layanan.edit',['layanan' => $layanan]);
+        return view('backend.layanan.edit',[
+            'layanan' => $layanan,
+        ]);
     }
 
     /**
@@ -70,11 +80,19 @@ class LayananController extends Controller
     {
         $layanan = Layanan::findOrFail($id);
         $request->validate([
-            'nama_layanan' => 'required'
+            'nama_layanan' => 'required',
+            'gambar' => 'required|image',
         ]);
 
+        if ($request->hasFile('gambar')) {
+            $image = $request->file('gambar');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+        }
+
         $layanan->update([
-            'nama_layanan' => $request->input('nama_layanan')
+            'nama_layanan' => $request->input('nama_layanan'),
+            'gambar' => $imageName,
         ]);
 
         return redirect('layanan')->with('succes', 'data berhasil ditambah');

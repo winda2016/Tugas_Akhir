@@ -82,7 +82,7 @@
                             </p>
                         </div>
                         <div class="col-md-7">
-                        <h2 class="fw-bold" style="text-align: center;">Educator</h2>
+                            <h2 class="fw-bold" style="text-align: center;">Educator</h2>
                             <div class="row">
                                 <div class="col-lg-4">
                                     <img src="images/Ac1.png" class="pt-3" alt="" class="img-fluid" width="200" height="200">
@@ -99,7 +99,7 @@
                             </div><br>
                             <h2 class="fw-bold" style="text-align: center;">Our Courses</h2>
                             <div class="row">
-                            <div class="col-lg-6">
+                                <div class="col-lg-6">
                                     <img src="images/basic.png" class="pt-3" alt="" class="img-fluid" width="260" height="260">
                                     <h3 class="fw-bold" style="text-align: center;">Basic Course</h3>
                                 </div>
