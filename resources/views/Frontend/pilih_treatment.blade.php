@@ -27,131 +27,50 @@
     <!-- style CSS -->
     <link rel="stylesheet" href="{!! asset('frontend/css/style.css') !!}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        .priceing_part {
+            padding: 0px 0px 40px;
+        }
+    </style>
 </head>
 
 <body>
-
-
-    <!-- priceing part start-->
-    <div>
-        <p class="button pt-3 mx-3"><a href="/pilih_layanan" class="btn btn-hijau rounded-circle px-4 py-3"><i class="fa-solid fa-arrow-left"></i> Back</a></p>
+    <div class="bg-dark">
+        <p class="button py-3 mx-3"><a href="/pilih_layanan" class="btn btn-hijau rounded-circle px-4 py-3"><i class="fa-solid fa-arrow-left"></i> Back</a></p>
     </div>
     <section class="priceing_part">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-7 col-lg-6 col-sm-10">
                     <div class="section_tittle">
-                        <img class="text-center" src="images/logoo_1.png"></span>
+                        <img class="text-center" src="{{asset('images/logoo_1.png')}}"></span>
                         <h2>Pilih Treatment</h2>
                         <p>Pilih beberapa treatment yang anda inginkan</p>
                     </div>
                 </div>
             </div>
-            <div class="row align-items-center">
-                <div class="col-md-6 col-lg-6">
-                    <div class="single_pricing_item">
-                        <img src="images/treatment/T1.png" width="90" height="90">
-                        <div class="single_pricing_text">
-                            <h5>Hair Cut By:Febrian</h5>
-                            <h6>Rp.85.000</h6>
-                            <p class="button"><a href="#" class="btn btn-hijau">Pilih</a></p>
+            <form action="{{ url('get-booking-treatment') }}" method="POST">
+                @csrf
+                <div class="container row align-items-center">
+                    @foreach($treatments as $treatment)
+                    <div class="col-md-6">
+                        <div class="single_pricing_item">
+                            <div class="single_pricing_text">
+                                <input type="checkbox" class="custom-control-input" id="customCheck{{$treatment->id}}" name="selected_treatments[]" value="{{$treatment->id}}">
+                                <label class="custom-control-label" for="customCheck{{$treatment->id}}">
+                                </label>
+                                <h5>{{$treatment->nama_treatment}}</h5>
+                                <h6>Rp{{$treatment->harga}}</h6>
+                            </div>
                         </div>
                     </div>
-                    <div class="single_pricing_item">
-                        <img src="images/treatment/T2.png" width="90" height="90">
-                        <div class="single_pricing_text">
-                            <h5>Hair Cut By:Yoga</h5>
-                            <h6>Rp.80.000</h6>
-                            <p class="button"><a href="#" class="btn btn-hijau">Pilih</a></p>
-                        </div>
-                    </div>
-                    <div class="single_pricing_item">
-                        <img src="images/treatment/T3.png" width="90" height="90">
-                        <div class="single_pricing_text">
-                            <h5>Hair Cut By:Afdal</h5>
-                            <h6>Rp.60.000</h6>
-                            <p class="button"><a href="#" class="btn btn-hijau">Pilih</a></p>
-                        </div>
-                    </div>
-                    <div class="single_pricing_item">
-                        <img src="images/treatment/T3.png" width="90" height="90">
-                        <div class="single_pricing_text">
-                            <h5>Hair Cut By:Roby</h5>
-                            <h6>Rp.60.000</h6>
-                            <p class="button"><a href="#" class="btn btn-hijau">Pilih</a></p>
-                        </div>
-                    </div>
-                    <div class="single_pricing_item">
-                    <img src="images/treatment/T4.png" width="90" height="90">
-                        <div class="single_pricing_text">
-                            <h5>Basic Color</h5>
-                            <h6>Rp.70.000</h6>
-                            <p class="button"><a href="#" class="btn btn-hijau">Pilih</a></p>
-                        </div>
-                    </div>
-                    <div class="single_pricing_item">
-                    <img src="images/treatment/T5.png" width="90" height="90">
-                        <div class="single_pricing_text">
-                            <h5>Highlight</h5>
-                            <h6>Start Rp.250.00</h6>
-                            <p>Harga dapat berubah sesuai kebutuhan</p>
-                            <p class="button"><a href="#" class="btn btn-hijau">Pilih</a></p>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
-                <div class="col-md-6 col-lg-6">
-                    <div class="single_pricing_item">
-                    <img src="images/treatment/T5.png" width="90" height="90">
-                        <div class="single_pricing_text">
-                            <h5>Full Color</h5>
-                            <h6>Start Rp.370.00</h6>
-                            <p>Harga dapat berubah sesuai kebutuhan</p>
-                            <p class="button"><a href="#" class="btn btn-hijau">Pilih</a></p>
-                        </div>
-                    </div>
-                    <div class="single_pricing_item">
-                    <img src="images/treatment/T6.png" width="90" height="90">
-                        <div class="single_pricing_text">
-                            <h5>Facial</h5>
-                            <h6>Rp.40.00</h6>
-                            <p class="button"><a href="#" class="btn btn-hijau">Pilih</a></p>
-                        </div>
-                    </div>
-                    <div class="single_pricing_item">
-                    <img src="images/treatment/T7.png" width="90" height="90">
-                        <div class="single_pricing_text">
-                            <h5>Creambath</h5>
-                            <h6>Rp.80.00</h6>
-                            <p class="button"><a href="#" class="btn btn-hijau">Pilih</a></p>
-                        </div>
-                    </div>
-                    <div class="single_pricing_item">
-                    <img src="images/treatment/T8.png" width="90" height="90">
-                        <div class="single_pricing_text">
-                            <h5>Combo Fa-Cream</h5>
-                            <h6>Rp.100.00</h6>
-                            <p class="button"><a href="#" class="btn btn-hijau">Pilih</a></p>
-                        </div>
-                    </div>
-                    <div class="single_pricing_item">
-                    <img src="images/treatment/T9.png" width="90" height="90">
-                        <div class="single_pricing_text">
-                            <h5>Hair Perm</h5>
-                            <h6>Rp.300.000</h6>
-                            <p class="button"><a href="#" class="btn btn-hijau">Pilih</a></p>
-                        </div>
-                    </div>
-                    <div class="single_pricing_item">
-                    <img src="images/treatment/T10.png" width="90" height="90">
-                        <div class="single_pricing_text">
-                            <h5>Cornrow</h5>
-                            <h6>Rp.200.00</h6>
-                            <p class="button"><a href="#" class="btn btn-hijau">Pilih</a></p>
-                        </div>
-                    </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-hijau rounded-0">Pilih Treatment</button>
                 </div>
-            </div>
-            <p class="button"><a href="/booking_haircut" class="btn btn-hijau">Konfirmasi Booking </a></p>
+            </form>
         </div>
     </section>
     <!-- priceing part end-->

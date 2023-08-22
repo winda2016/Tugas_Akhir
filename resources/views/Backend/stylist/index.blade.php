@@ -46,6 +46,7 @@
                                 <th>Nama Hair Stylist</th>
                                 <th>No Hp</th>
                                 <th>Alamat</th>
+                                <th>Foto</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -57,6 +58,9 @@
                                 <td>{{$stylist->no_hp ?? 'data tidak ada'}}</td>
                                 <td>{{$stylist->alamat ?? 'data tidak ada'}}</td>
                                 <td>
+                                    <img src="{{ asset('images/'.$stylist->gambar)}}" alt="" width="50" height="50">
+                                </td>
+                                <td>
 
                                     <a href="/stylist/{{$stylist->id}}/edit" class="btn btn-primary btn-sm"> Edit </a>
                                     <form action="/stylist/{{$stylist->id}}" method="POST" style="display: inline;">
@@ -67,7 +71,7 @@
                                 </td>
                             </tr>
                             @empty
-                            <td colspan="3"> data tidak ada
+                            <td colspan="4"> data tidak ada
                             </td>
                             @endforelse
                         </tbody>

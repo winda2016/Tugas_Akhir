@@ -22,6 +22,7 @@
         <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="/pengguna">Data Pengguna</a>
+                <a class="collapse-item" href="/getDataPengguna">Data Pelanggan</a>
                 <a class="collapse-item" href="/stylist">Data Hair Stylist</a>
                 <a class="collapse-item" href="/layanan">Data Layanan</a>
                 <a class="collapse-item" href="/treatment">Data Treatment</a>

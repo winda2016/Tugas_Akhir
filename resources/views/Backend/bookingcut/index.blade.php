@@ -58,18 +58,18 @@
                             @forelse($booking_cuts as $booking_cut)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{$booking_cut->user->nama ?? 'data tidak ada'}}</td>
-                                <td>{{$booking_cut->user->email ?? 'data tidak ada'}}</td>
-                                <td>{{$booking_cut->user->no_hp ?? 'data tidak ada'}}</td>
-                                <td>{{$booking_cut->layanan->nama_layanan ?? 'data tidak ada'}}</td>
-                                <td>{{$booking_cut->stylist->nama ?? 'data tidak ada'}}</td>
-                                <td>{{$booking_cut->treatment->nama_treatment ?? 'data tidak ada'}}</td>
-                                <td>{{$booking_cut->tanggal ?? 'data tidak ada'}}</td>
-                                <td>{{$booking_cut->jam ?? 'data tidak ada'}}</td>
-                                <td>{{$booking_cut->total ?? 'data tidak ada'}}</td>
+                                <td>{{$booking_cut->user->nama ?? '-'}}</td>
+                                <td>{{$booking_cut->user->email ?? '-'}}</td>
+                                <td>{{$booking_cut->user->no_hp ?? '-'}}</td>
+                                <td>{{$booking_cut->layanan->nama_layanan ?? '-'}}</td>
+                                <td>{{$booking_cut->stylist->nama ?? '-'}}</td>
+                                <td>{{$booking_cut->treatment->nama_treatment ?? '-'}}</td>
+                                <td>{{$booking_cut->tanggal ?? '-'}}</td>
+                                <td>{{$booking_cut->jam ?? '-'}}</td>
+                                <td>{{$booking_cut->total ?? '-'}}</td>
                                 <td>
-                                    <a href="/bookingcut/{{$bookingcut->id}}/edit" class="btn btn-primary btn-sm"> Edit </a>
-                                    <form action="/bookingcut/{{$bookingcut->id}}" method="POST" style="display: inline;">
+                                    <a href="/bookingcut/{{$booking_cut->id}}/edit" class="btn btn-primary btn-sm"> Edit </a>
+                                    <form action="/bookingcut/{{$booking_cut->id}}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin akan menghapus data ini?')">Hapus</button>
@@ -77,7 +77,7 @@
                                 </td>
                             </tr>
                             @empty
-                            <td colspan="10"> data tidak ada
+                            <td colspan="11"> data tidak ada
                             </td>
                             @endforelse
                         </tbody>

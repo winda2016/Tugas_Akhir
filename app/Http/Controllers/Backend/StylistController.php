@@ -37,16 +37,26 @@ class StylistController extends Controller
             'nama' => 'required',
             'no_hp' => 'required',
             'alamat' => 'required',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif',
         ]);
+
+        if ($request->hasFile('gambar')) {
+            $image = $request->file('gambar');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+        }
 
         $stylist = new Stylist();
         $stylist->nama = $request->input('nama');
         $stylist->no_hp = $request->input('no_hp');
         $stylist->alamat = $request->input('alamat');
+        $stylist->gambar = $imageName;
         $stylist->save();
 
         // Sesuaikan dengan logika autentikasi atau pengalihan halaman setelah pendaftaran berhasil
         return redirect('stylist')->with('success', 'data berhasil ditambahkan.');
+
+        
 
     }
 
@@ -76,13 +86,21 @@ class StylistController extends Controller
         $request->validate([
             'nama' => 'required',
             'no_hp' => 'required',
-            'alamat' => 'required'
+            'alamat' => 'required',
+            'gambar' => 'required|image',
         ]);
+
+        if ($request->hasFile('gambar')) {
+            $image = $request->file('gambar');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+        }
 
         $stylist->update([
             'nama' => $request->input('nama'),
             'no_hp' => $request->input('no_hp'),
-            'alamat' => $request->input('alamat')
+            'alamat' => $request->input('alamat'),
+            'gambar' => $imageName,
 
         ]);
 

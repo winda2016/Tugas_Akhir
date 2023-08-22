@@ -9,6 +9,7 @@ use App\Models\Stylist;
 use App\Models\Treatment;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Booking_cutController extends Controller
 {
@@ -28,7 +29,7 @@ class Booking_cutController extends Controller
     public function create()
     {
         return view('backend.bookingcut.create', [
-            'users' => User::get(),
+            'users' => User::where('role', 'user')->get(),
             'layanans' => Layanan::get(),
             'stylists' => Stylist::get(),
             'treatments' => Treatment::get(),
@@ -53,12 +54,19 @@ class Booking_cutController extends Controller
         ]);
 
         $bookingcut = new Bookingcut();
-        $bookingcut->nama_course = $request->input('nama_course');
-        $bookingcut->harga = $request->input('harga');
+        $bookingcut->nama = $request->input('nama');
+        $bookingcut->email = $request->input('email');
+        $bookingcut->no_hp = $request->input('no_hp');
+        $bookingcut->layanan = $request->input('layanan');
+        $bookingcut->stylist = $request->input('stylist');
+        $bookingcut->treatment = $request->input('treatment');
+        $bookingcut->tanggal = $request->input('tanggal');
+        $bookingcut->jam = $request->input('jam');
         $bookingcut->save();
 
+
         // Sesuaikan dengan logika autentikasi atau pengalihan halaman setelah pendaftaran berhasil
-        return redirect('course')->with('success', 'data berhasil ditambahkan.');
+        return redirect('bookingcut')->with('success', 'data berhasil ditambahkan.');
     }
 
     /**
@@ -95,4 +103,5 @@ class Booking_cutController extends Controller
         $data->delete();
         return redirect()->back()->with('succes', 'data berhasil dihapus.');
     }
+
 }

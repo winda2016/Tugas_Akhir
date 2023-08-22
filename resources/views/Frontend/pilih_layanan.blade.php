@@ -45,26 +45,24 @@
             </div>
 
             <div class="row ">
+                @foreach($layanans as $layanan)
                 <div class="col-lg-6 ftco-animate">
                     <div class="pricing-entry pb-3 text-center">
                         <div>
                             <div class="align-items-center text-center">
-                                <img class="text-center" src="images/HA.png" width="220" height="220">
+                                <img class="text-center" src="{{ asset('images/'.$layanan->gambar)}}" width="220" height="220">
                             </div>
                         </div>
-                        <p class="button text-center"><a href="/" class="btn btn-primary px-4 py-3">Pilih</a></p>
+                        <form action="layanan/{{$layanan->id}}" method="POST">
+                            @csrf
+                            <input type="hidden" name="layanan_id" value="{{ $layanan->id }}">
+                            <p class="button text-center">
+                                <button type="submit" class="btn btn-primary px-4 py-3">Pilih</button>
+                            </p>
+                        </form>
                     </div>
                 </div>
-                <div class="col-lg-6 ftco-animate">
-                    <div class="pricing-entry pb-3 text-center">
-                        <div>
-                            <div class="align-items-center  text-center">
-                                <img class="text-center" src="images/HC.png" width="220" height="220">
-                            </div>
-                        </div>
-                        <p class="button text-center"><a href="/pilih_stylist" class="btn btn-primary px-4 py-3">Pilih</a></p>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>

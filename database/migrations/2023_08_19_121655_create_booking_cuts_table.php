@@ -13,18 +13,19 @@ return new class extends Migration
     {
         Schema::create('booking_cuts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('layanan_id');
-            $table->unsignedBigInteger('stylist_id');
-            $table->unsignedBigInteger('treatment_id');
-            $table->date('tanggal');
-            $table->integer('total');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('layanan_id')->nullable();
+            $table->unsignedBigInteger('stylist_id')->nullable();
+            // $table->unsignedBigInteger('treatment_id')->nullable();
+            $table->date('tanggal')->nullable();
+            $table->time('jam')->nullable();
+            $table->integer('total')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('layanan_id')->references('id')->on('layanans')->onDelete('cascade');
             $table->foreign('stylist_id')->references('id')->on('stylists')->onDelete('cascade');
-            $table->foreign('treatment_id')->references('id')->on('treatments')->onDelete('cascade');
+            // $table->foreign('treatment_id')->references('id')->on('treatments')->onDelete('cascade');
 
         });
     }

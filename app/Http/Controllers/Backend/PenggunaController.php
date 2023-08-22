@@ -14,8 +14,8 @@ class PenggunaController extends Controller
      */
     public function index()
     {
-        return view('backend.pengguna.index',[
-            'users'=>User::get()
+        return view('backend.pengguna.index', [
+            'users' => User::get()
         ]);
     }
 
@@ -54,7 +54,6 @@ class PenggunaController extends Controller
 
         // Sesuaikan dengan logika autentikasi atau pengalihan halaman setelah pendaftaran berhasil
         return redirect('pengguna')->with('success', 'Pendaftaran berhasil! Silakan masuk dengan akun yang telah dibuat.');
-
     }
 
     /**
@@ -72,7 +71,7 @@ class PenggunaController extends Controller
     {
         $user = User::findOrfail($id);
         // return view('backend.pengguna.edit');
-        return view('backend.pengguna.edit',['pengguna' => $user]);
+        return view('backend.pengguna.edit', ['pengguna' => $user]);
     }
 
     /**
@@ -104,7 +103,6 @@ class PenggunaController extends Controller
         ]);
 
         return redirect('user')->with('succes', 'data berhasil ditambah');
-
     }
 
     /**
@@ -115,5 +113,13 @@ class PenggunaController extends Controller
         $data = User::find($id);
         $data->delete();
         return redirect()->back()->with('succes', 'data berhasil dihapus.');
+    }
+
+    public function getDataPengguna(Request $req)
+    {
+        $datas=User::where('role', 'User')->get();
+        return view('backend.pengguna.get', [
+            'datas' => $datas,
+        ]);
     }
 }
