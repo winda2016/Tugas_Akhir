@@ -41,17 +41,19 @@
                     <table class="table align-items-center table-flush" id="dataTable">
                         <thead class="thead-light">
                             <tr>
-                                <th>No</th>
-                                <th>Nama</th>
-                                <th>Email</th>
-                                <th>No Hp</th>
-                                <th>Layanan</th>
-                                <th>Hair Stylist</th>
-                                <th>Treatment</th>
-                                <th>Tanggal</th>
-                                <th>Jam</th>
-                                <th>Total</th>
-                                <th>Opsi</th>
+                                <th class="col-1 align-middle">No</th>
+                                <th class="align-middle">Nama</th>
+                                <th class="align-middle">Email</th>
+                                <th class="align-middle">No Hp</th>
+                                <th class="align-middle">Layanan</th>
+                                <th class="align-middle">Hair Stylist</th>
+                                <th class="align-middle">Treatment</th>
+                                <th class="align-middle">Tanggal</th>
+                                <th class="align-middle">Jam Mulai</th>
+                                <th class="align-middle">Durasi</th>
+                                <th class="align-middle">Jam Selesai</th>
+                                <th class="align-middle">Total Harga</th>
+                                <th class="align-middle">Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -63,16 +65,26 @@
                                 <td>{{$booking_cut->user->no_hp ?? '-'}}</td>
                                 <td>{{$booking_cut->layanan->nama_layanan ?? '-'}}</td>
                                 <td>{{$booking_cut->stylist->nama ?? '-'}}</td>
-                                <td>{{$booking_cut->treatment->nama_treatment ?? '-'}}</td>
-                                <td>{{$booking_cut->tanggal ?? '-'}}</td>
-                                <td>{{$booking_cut->jam ?? '-'}}</td>
-                                <td>{{$booking_cut->total ?? '-'}}</td>
                                 <td>
-                                    <a href="/bookingcut/{{$booking_cut->id}}/edit" class="btn btn-primary btn-sm"> Edit </a>
+                                    <ul>
+                                        @foreach ($booking_cut->treatments as $treatment)
+                                        <li>{{ $treatment->nama_treatment }} - Rp{{ number_format($treatment->harga, 0, ',', '.') }}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                                <td>{{\Carbon\Carbon::createFromFormat('Y-m-d', $booking_cut->tanggal)->format('d M Y')}}</td>
+                                <td>{{ isset($booking_cut->jam_mulai) ? \Carbon\Carbon::createFromFormat('H:i:s', $booking_cut->jam_mulai)->format('H:i') : '-' }} WIB
+                                </td>
+                                <td>{{$booking_cut->total_durasi ?? '-'}} Menit</td>
+                                <td>{{ isset($booking_cut->jam_selesai) ? \Carbon\Carbon::createFromFormat('H:i:s', $booking_cut->jam_selesai)->format('H:i') : '-' }} WIB
+                                </td>
+                                <td>Rp {{number_format($booking_cut->total_harga, 0, ',',)}}</td>
+                                <td>
+                                    <a href="/bookingcut/{{$booking_cut->id}}/edit" class="btn btn-primary btn-sm mb-2 px-3"> Edit </a>
                                     <form action="/bookingcut/{{$booking_cut->id}}" method="POST" style="display: inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin akan menghapus data ini?')">Hapus</button>
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin akan menghapus data ini?')">Hapus</button>
                                     </form>
                                 </td>
                             </tr>

@@ -18,8 +18,11 @@ class Booking_cutController extends Controller
      */
     public function index()
     {
+        $bookingcut = Bookingcut::with('treatments')
+        ->where('status',1)
+        ->get();
         return view('backend.bookingcut.index', [
-            'booking_cuts' => Bookingcut::get()
+            'booking_cuts' =>$bookingcut
         ]);
     }
 
@@ -103,5 +106,4 @@ class Booking_cutController extends Controller
         $data->delete();
         return redirect()->back()->with('succes', 'data berhasil dihapus.');
     }
-
 }

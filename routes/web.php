@@ -37,13 +37,15 @@ Route::get('/coba', function (){
     return view('frontend.academy_Coba');
 });
 
-Route::get('/booking_haircut', function (){
-    return view('frontend.form_booking_haircut');
-});
-
 Route::get('/booking_academy', function (){
     return view('frontend.form_booking_academy');
 });
+
+Route::get('/pilih_course', function (){
+    return view('frontend.pilih_course');
+});
+
+
 
 // login
 Route::get('/login', [AuthController::class,'index'])->name('login');
@@ -89,4 +91,8 @@ Route::get('pilih_treatment/{id}', [FrontendController::class,'pilih_treatment']
 Route::post('/layanan/{id}', [FrontendController::class, 'layanan']);
 Route::post('/stylist/{id}', [FrontendController::class, 'stylist']);
 Route::post('/get-booking-treatment', [FrontendController::class, 'get_booking_treatment']);
+Route::get('/booking_haircut', [FrontendController::class, 'booking_haircut']);
+
+Route::post('/booking', [FrontendController::class, 'booking_cut']);
+
 

@@ -9,6 +9,7 @@ use App\Models\Stylist;
 use App\Models\Treatment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class FrontendController extends Controller
 {
@@ -112,6 +113,47 @@ class FrontendController extends Controller
         // Hubungkan booking dengan treatment(s) yang dipilih
         $booking->treatments()->sync($request->input('selected_treatments'));
 
-        return redirect('/pilih_stylist')->with('success', 'Booking berhasil dibuat');
+        return redirect('/booking_haircut')->with('success', 'Booking berhasil dibuat');
+    }
+
+    public function booking_haircut()
+    {
+        // Ambil id_booking dari sesi
+        $id_booking = session('id_booking');
+
+        // Ambil data booking berdasarkan id_booking
+        $booking = Bookingcut::findOrFail($id_booking);
+        return view('frontend.form_booking_haircut', ['booking' => $booking]);
+    }
+
+    public function booking_cut(Request $request)
+    {
+
+        $id_booking = session('id_booking');
+        $booking = Bookingcut::findOrFail($id_booking);
+
+        $request->validate([
+            'tanggal' => 'required',
+            'jam_mulai' => 'required',
+        ]);
+
+        $tanggal = $request->input('tanggal');
+        $jam_mulai = $request->input('jam_mulai');
+        $total_durasi = $request->input('total_durasi');
+        $total_harga = $request->input('total_harga');
+        // Menggunakan Carbon untuk menghitung jam selesai
+        $jam_selesai = Carbon::createFromFormat('H:i', $jam_mulai)->addMinutes($total_durasi);
+
+
+        $booking->update([
+            'tanggal' => $tanggal,
+            'jam_mulai' => $jam_mulai,
+            'total_durasi' => $total_durasi,
+            'total_harga' => $total_harga,
+            'jam_selesai' => $jam_selesai,
+            'status' => 1
+        ]);
+
+        return redirect('/');
     }
 }
