@@ -54,7 +54,7 @@
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$treatment->nama_treatment ?? 'data tidak ada'}}</td>
-                                <td>Rp. {{$treatment->harga ?? 'data tidak ada'}}</td>
+                                <td>Rp {{number_format($treatment->harga, 0, ',',)}}</td>
                                 <td>{{$treatment->waktu ?? 'data tidak ada'}} Menit</td>
                                 <td>
 

@@ -33,12 +33,26 @@ class CourseController extends Controller
     {
         $request->validate([
             'nama_course' => 'required',
+            'deskripsi' => 'required',
+            'tentang' => 'required',
+            'yang_dipelajari' => 'required',
             'harga' => 'required',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif',
         ]);
+
+        if ($request->hasFile('gambar')) {
+            $image = $request->file('gambar');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+        }
 
         $course = new Course();
         $course->nama_course = $request->input('nama_course');
+        $course->deskripsi = $request->input('deskripsi');
+        $course->tentang = $request->input('tentang');
+        $course->yang_dipelajari = $request->input('yang_dipelajari');
         $course->harga = $request->input('harga');
+        $course->gambar = $imageName;
         $course->save();
 
          // Sesuaikan dengan logika autentikasi atau pengalihan halaman setelah pendaftaran berhasil
@@ -59,7 +73,8 @@ class CourseController extends Controller
     public function edit(string $id)
     {
         $course = Course::find($id);
-        return view('backend.course.edit',['course' => $course]);
+        return view('backend.course.edit',[
+            'course' => $course]);
     }
 
     /**
@@ -70,12 +85,26 @@ class CourseController extends Controller
         $course = Course::findOrFail($id);
         $request->validate([
             'nama_course' => 'required',
-            'harga' => 'required'
+            'deskripsi' => 'required',
+            'tentang' => 'required',
+            'yang_dipelajari' => 'required',
+            'harga' => 'required',
+            'gambar' => 'required|image',
         ]);
+
+        if ($request->hasFile('gambar')) {
+            $image = $request->file('gambar');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+        }
 
         $course->update([
             'nama_course' => $request->input('nama_course'),
-            'harga' => $request->input('harga')
+            'deskripsi' => $request->input('deskripsi'),
+            'tentang' => $request->input('tentang'),
+            'yang_dipelajari' => $request->input('yang_dipelajari'),
+            'harga' => $request->input('harga'),
+            'gambar' => $imageName,
         ]);
 
         return redirect('course')->with('succes', 'data berhasil ditambah');

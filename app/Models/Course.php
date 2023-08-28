@@ -9,4 +9,12 @@ class Course extends Model
 {
     use HasFactory;
     protected $guarded=[];
+
+    public function jadwal() {
+        return $this->hasMany(JadwalKursus::class);
+    }
+
+    public function angkatan() {
+        return $this->hasMany(Angkatan::class);
+    }
 }

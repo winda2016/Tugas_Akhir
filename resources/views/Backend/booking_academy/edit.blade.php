@@ -6,13 +6,13 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <h4><i class="mdi mdi-library-plus"></i> Edit Data Booking HairCut</h4>
-                        <a href="/bookingcut">
+                        <h4><i class="mdi mdi-library-plus"></i> Edit Data Booking Academy</h4>
+                        <a href="/data_academy">
                             <button type="button" class="btn cur-p btn-dark "><i class="fa fa-arrow-left"></i> Back</button>
                         </a>
                     </div>
                     <hr>
-                    <form class="forms-sample" action="/bookingcut/{{$bookingcut->id}}" method="POST" enctype="multipart/form-data">
+                    <form class="forms-sample" action="/data_academy/{{$bookingaca->id}}" method="POST" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
                         <div class="form-group">

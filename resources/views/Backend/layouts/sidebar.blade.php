@@ -45,6 +45,17 @@
     </li>
     <hr class="sidebar-divider">
     <div class="sidebar-heading">
+        Transaksi
+    </div>
+    <li class="nav-item">
+        <a class="nav-link" href="/uang_masuk">
+            <i class="fa-regular fa-folder"></i>
+            <span>Data Pembayaran</span>
+        </a>
+    </li>
+
+    <hr class="sidebar-divider">
+    <div class="sidebar-heading">
         Laporan
     </div>
     <li class="nav-item">

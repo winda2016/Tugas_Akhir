@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Angkatan;
 use App\Models\Bookingcut;
+use App\Models\Bookingaca;
 use App\Models\Layanan;
 use App\Models\Stylist;
 use App\Models\Treatment;
+use App\Models\Course;
+use App\Models\detail_course;
+use App\Models\JadwalKursus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -31,18 +36,21 @@ class FrontendController extends Controller
                 'user_id' => Auth::user()->id,
                 'layanan_id' => $selectedLayanan->id,
             ]);
+            // Simpan id_booking ke dalam sesi
+            session(['id_booking' => $booking->id]);
+            return redirect('/pilih_stylist/' . $request->layanan_id);
         } elseif ($selectedLayanan->id === 2) {
-            // $booking = BookingAca::create([
-            //     'layanan_id' => $selectedLayanan->id,
-            // });
+            $booking = Bookingaca::create([
+                'user_id' => Auth::user()->id,
+                'layanan_id' => $selectedLayanan->id,
+            ]);
+            // Simpan id_booking ke dalam sesi
+            session(['id_booking' => $booking->id]);
+            session(['id_layanan' => $request->layanan_id]);
+            return redirect('/pilih_course/' . $request->layanan_id);
         } else {
             return redirect()->back()->with('error', 'Layanan tidak valid.');
         }
-
-        // Simpan id_booking ke dalam sesi
-        session(['id_booking' => $booking->id]);
-
-        return redirect('/pilih_stylist/' . $request->layanan_id);
     }
 
 
@@ -128,7 +136,6 @@ class FrontendController extends Controller
 
     public function booking_cut(Request $request)
     {
-
         $id_booking = session('id_booking');
         $booking = Bookingcut::findOrFail($id_booking);
 
@@ -141,9 +148,21 @@ class FrontendController extends Controller
         $jam_mulai = $request->input('jam_mulai');
         $total_durasi = $request->input('total_durasi');
         $total_harga = $request->input('total_harga');
+
         // Menggunakan Carbon untuk menghitung jam selesai
         $jam_selesai = Carbon::createFromFormat('H:i', $jam_mulai)->addMinutes($total_durasi);
 
+        // Cek apakah ada konflik dengan pemesanan yang sudah ada di database
+        $conflictingBooking = Bookingcut::where('id', '<>', $id_booking)
+            ->where('tanggal', $tanggal)
+            ->where('jam_mulai', '<', $jam_selesai)
+            ->where('jam_selesai', '>', $jam_mulai)
+            ->where('stylist_id', $booking->stylist_id)
+            ->first();
+
+        if ($conflictingBooking) {
+            return back()->with('error', 'Konflik dengan pemesanan lain yang sudah ada.');
+        }
 
         $booking->update([
             'tanggal' => $tanggal,
@@ -151,8 +170,85 @@ class FrontendController extends Controller
             'total_durasi' => $total_durasi,
             'total_harga' => $total_harga,
             'jam_selesai' => $jam_selesai,
-            'status' => 1
+            'cek_kelengkapan' => 1
         ]);
+
+        return redirect('/')->with('success', 'Booking berhasil diperbarui.');
+    }
+
+    public function pilih_course()
+    {
+        // Ambil id_booking dari sesi
+        $id_booking = session('id_booking');
+        $id_layanan = session('id_layanan');
+        // dd($id_booking);
+        return view('frontend.pilih_course', [
+            'courses' => Course::get(),
+            'id_booking' => $id_booking,
+            'id_layanan' => $id_layanan
+        ]);
+    }
+
+    public function course_detail(Request $request)
+    {
+        // Ambil id_booking dari sesi
+        $id_booking = session('id_booking');
+        // dd($id_booking);
+
+        $booking_academy = Bookingaca::where('id', $id_booking);
+        $booking_academy->update([
+            'course_id' => $request->input('course'),
+            'total' => $request->input('harga'),
+        ]);
+
+        $courseId = $request->input('course');
+
+        return redirect('/get-detail-course/' . $courseId);
+    }
+
+    public function getDetailCourse($id)
+    {
+        $detail = Course::where('id', $id)->first();
+        $id_booking = session('id_booking');
+        $jadwal = JadwalKursus::where('course_id', $id)->first();
+        $batch = Angkatan::where('course_id', $id)->get();
+        // dd($id_booking);
+        return view('frontend.detail_course', [
+            'course' => $detail,
+            'jadwal' => $jadwal,
+            'id_booking' => $id_booking,
+            'angkatan' => $batch
+        ]);
+    }
+
+    public function booking_academy(Request $request)
+    {
+        $request->validate([
+            'batch' => 'required'
+        ], [
+            'batch.required' => 'Silahkan pilih batch terlebih dahulu'
+        ]);
+
+        $id_booking = session('id_booking');
+        $selectedBatchId = $request->input('batch');
+
+        $angkatan = Angkatan::findOrFail($selectedBatchId);
+
+        if ($angkatan->kuota > 0) {
+            $angkatan->kuota -= 1;
+
+            if ($angkatan->kuota === 0) {
+                $angkatan->status = 0;
+            }
+
+            $angkatan->save();
+
+            $booking_academy = Bookingaca::where('id', $id_booking);
+            $booking_academy->update([
+                'angkatan_id' => $selectedBatchId,
+                'cek_kelengkapan' => 1
+            ]);
+        }
 
         return redirect('/');
     }

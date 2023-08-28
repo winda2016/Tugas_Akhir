@@ -27,6 +27,10 @@
                                 <label for="exampleInputUsername1">Tgl Selesai</label>
                                 <input type="date" autofocus required class="form-control" name="tgl_akhir" value="{{$angkatan->tgl_akhir}}" placeholder="Masukan Tanggal Selesai...">
                             </div>
+                            <div class="form-group">
+                                <label for="exampleInputUsername1">Kuota</label>
+                                <input type="number" autofocus required class="form-control" name="kuota" value="{{$angkatan->kuota}}" placeholder="Masukan Kuota...">
+                            </div>
                             <button type="submit" class="btn btn-primary mt-1 mr-2"><i class="mdi mdi-content-save-all"></i> Update Data</button>
                         </form>
                     </div>

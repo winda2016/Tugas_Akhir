@@ -14,4 +14,9 @@ class Layanan extends Model
     {
         return $this->hasMany(Bookingcut::class);
     }
+
+    public function bookingaca()
+    {
+        return $this->hasMany(Bookingaca::class);
+    }
 }

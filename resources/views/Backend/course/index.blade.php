@@ -44,7 +44,11 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Course</th>
+                                <th>Deskripsi</th>
+                                <th>Tentang</th>
+                                <th>Materi</th>
                                 <th>Harga</th>
+                                <th>Gambar</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -53,9 +57,14 @@
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$course->nama_course ?? 'data tidak ada'}}</td>
-                                <td>Rp. {{$course->harga ?? 'data tidak ada'}}</td>
+                                <td>{{$course->deskripsi ?? 'data tidak ada'}}</td>
+                                <td>{{$course->tentang ?? 'data tidak ada'}}</td>
+                                <td>{{$course->yang_dipelajari ?? 'data tidak ada'}}</td>
+                                <td>Rp {{number_format($course->harga, 0, ',',)}}</td>
                                 <td>
-
+                                    <img src="{{ asset('images/'.$course->gambar)}}" alt="" width="50" height="50">
+                                </td>
+                                <td>
                                     <a href="/course/{{$course->id}}/edit" class="btn btn-primary btn-sm"> Edit </a>
                                     <form action="/course/{{$course->id}}" method="POST" style="display: inline;">
                                     @csrf

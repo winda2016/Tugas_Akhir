@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Angkatan;
+use App\Models\Course;
 use Illuminate\Http\Request;
 
 class AngkatanController extends Controller
@@ -26,7 +27,9 @@ class AngkatanController extends Controller
      */
     public function create()
     {
-        return view('backend.angkatan.create');
+        return view('backend.angkatan.create',[
+            'courses' => Course::get(),
+        ]);
     }
 
     /**
@@ -38,12 +41,16 @@ class AngkatanController extends Controller
             'nama_angkatan' => 'required',
             'tgl_mulai' => 'required',
             'tgl_akhir' => 'required',
+            'kuota' => 'required',
+            'course' => 'required',
         ]);
 
         $angkatan = new Angkatan();
         $angkatan->nama_angkatan = $request->input('nama_angkatan');
         $angkatan->tgl_mulai = $request->input('tgl_mulai');
         $angkatan->tgl_akhir = $request->input('tgl_akhir');
+        $angkatan->kuota = $request->input('kuota');
+        $angkatan->course_id = $request->input('course');
         $angkatan->save();
 
         // Sesuaikan dengan logika autentikasi atau pengalihan halaman setelah pendaftaran berhasil
@@ -77,12 +84,14 @@ class AngkatanController extends Controller
             'nama_angkatan' => 'required',
             'tgl_mulai' => 'required',
             'tgl_akhir' => 'required',
+            'kuota' => 'required',
         ]);
 
         $angkatan->update([
             'nama_angkatan' => $request->input('nama_angkatan'),
             'tgl_mulai' => $request->input('tgl_mulai'),
-            'tgl_akhir' => $request->input('tgl_akhir')
+            'tgl_akhir' => $request->input('tgl_akhir'),
+            'kuota' => $request->input('kuota')
         ]);
 
         return redirect('angkatan')->with('succes', 'data berhasil ditambah');

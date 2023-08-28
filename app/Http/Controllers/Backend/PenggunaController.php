@@ -99,10 +99,9 @@ class PenggunaController extends Controller
             'instagram' => $request->input('instagram'),
             'alamat' => $request->input('alamat'),
             'password' => $request->input('password'),
-
         ]);
 
-        return redirect('user')->with('succes', 'data berhasil ditambah');
+        return redirect('pengguna')->with('succes', 'data berhasil diupdate');
     }
 
     /**

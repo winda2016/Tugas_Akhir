@@ -8,6 +8,7 @@ use App\Models\Layanan;
 use App\Models\Stylist;
 use App\Models\Treatment;
 use App\Models\User;
+use PDF; // Import class PDF
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,11 +19,10 @@ class Booking_cutController extends Controller
      */
     public function index()
     {
-        $bookingcut = Bookingcut::with('treatments')
-        ->where('status',1)
-        ->get();
+        $bookingcut = Bookingcut::where('cek_kelengkapan', 1)
+            ->get();
         return view('backend.bookingcut.index', [
-            'booking_cuts' =>$bookingcut
+            'booking_cuts' => $bookingcut
         ]);
     }
 
@@ -94,7 +94,18 @@ class Booking_cutController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $bookingcut = Bookingcut::findOrFail($id);
+        $request->validate([
+            'status' => 'required',
+
+        ]);
+
+        $bookingcut->update([
+            'status' => $request->input('status'),
+
+        ]);
+
+        return redirect('bookingcut')->with('succes', 'data berhasil diupdate');
     }
 
     /**
@@ -105,5 +116,15 @@ class Booking_cutController extends Controller
         $data = Bookingcut::find($id);
         $data->delete();
         return redirect()->back()->with('succes', 'data berhasil dihapus.');
+    }
+
+
+    public function cetakStruk($bookingId)
+    {
+        $booking_cut = BookingCut::find($bookingId); // Ganti BookingCut dengan model yang sesuai
+
+        // Cetak struk menggunakan library PDF
+        $pdf = PDF::loadView('backend.bookingcut.struk', compact('booking_cut'));
+        return $pdf->stream('struk.pdf');
     }
 }

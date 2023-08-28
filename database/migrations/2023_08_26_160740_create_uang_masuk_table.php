@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('courses', function (Blueprint $table) {
+        Schema::create('uang_masuk', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_course');
-            $table->text('deskripsi');
-            $table->text('tentang');
-            $table->text('yang_dipelajari');
-            $table->decimal('harga', 10,2);
-            $table->string('gambar');
+            $table->unsignedBigInteger('layanan_id')->nullable();
+            $table->date('tanggal_pemasukan');
+            $table->decimal('total_uang_masuk', 10, 2);
             $table->timestamps();
+
+            $table->foreign('layanan_id')->references('id')->on('layanans')->onDelete('cascade');
         });
     }
 
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('courses');
+        Schema::dropIfExists('uang_masuk');
     }
 };
