@@ -7,11 +7,13 @@ use App\Http\Controllers\Backend\Booking_academyController;
 use App\Http\Controllers\Backend\Booking_cutController;
 use App\Http\Controllers\Backend\CourseController;
 use App\Http\Controllers\Backend\LayananController;
+use App\Http\Controllers\backend\PendapatanController;
 use App\Http\Controllers\Backend\PenggunaController;
 use App\Http\Controllers\Backend\StylistController;
 use App\Http\Controllers\Backend\TreatmentController;
 use App\Http\Controllers\Backend\Uang_masukController;
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Models\Pendapatan;
 use Illuminate\Routing\Route as RoutingRoute;
 use Illuminate\Support\Facades\Route;
 
@@ -92,8 +94,8 @@ Route::resource('/bookingcut', Booking_cutController::class)->middleware('auth')
 //Booking Academy
 Route::resource('/data_academy', Booking_academyController::class)->middleware('auth');
 
-//Uang Masuk
-Route::resource('/uang_masuk', Uang_masukController::class)->middleware('auth');
+// Pendapatan
+Route::resource('/pendapatan', PendapatanController::class)->middleware('auth');
 
 //Frontend
 Route::post('booking-cut', [FrontendController::class,'booking_cut']);
@@ -104,6 +106,12 @@ Route::post('/layanan/{id}', [FrontendController::class, 'layanan']);
 Route::post('/stylist/{id}', [FrontendController::class, 'stylist']);
 Route::post('/get-booking-treatment', [FrontendController::class, 'get_booking_treatment']);
 Route::get('/booking_haircut', [FrontendController::class, 'booking_haircut']);
+
+//pembayaran
+Route::get('/info_pesanan', [FrontendController::class, 'get_konfirmasi_pesanan']);
+Route::post('/konfirmasi_pembayaran_academy/{id}', [FrontendController::class, 'konfirmasi_pembayaran_academy']);
+Route::post('/konfirmasi_pembayaran_haircut/{id}', [FrontendController::class, 'konfirmasi_pembayaran_haircut']);
+
 
 //booking cut
 Route::post('/booking', [FrontendController::class, 'booking_cut']);

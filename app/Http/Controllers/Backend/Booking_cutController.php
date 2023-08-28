@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Bookingcut;
 use App\Models\Layanan;
+use App\Models\Pendapatan;
 use App\Models\Stylist;
 use App\Models\Treatment;
 use App\Models\User;
@@ -95,16 +96,33 @@ class Booking_cutController extends Controller
     public function update(Request $request, string $id)
     {
         $bookingcut = Bookingcut::findOrFail($id);
+
         $request->validate([
             'status' => 'required',
-
         ]);
+
+        $oldStatus = $bookingcut->status;
+        $newStatus = $request->input('status');
 
         $bookingcut->update([
-            'status' => $request->input('status'),
-
+            'status' => $newStatus,
         ]);
 
+        // Jika status berubah menjadi 1 dan sebelumnya bukan 1
+        if ($newStatus == 2 && $oldStatus != 2) {
+            $tanggal = $bookingcut->tanggal; // Ambil tanggal dari bookingcut
+
+            // Ambil total bayar dari semua pemesanan dengan status 1 pada tanggal tertentu
+            $totalBayar = Bookingcut::where('status', 2)
+                ->where('tanggal', $tanggal)
+                ->sum('total_harga');
+
+            // Simpan total bayar ke dalam tabel "pendapatan"
+            Pendapatan::updateOrCreate(
+                ['tanggal' => $tanggal, 'layanan_id' => $bookingcut->layanan_id],
+                ['total_pendapatan' => $totalBayar]
+            );
+        }
         return redirect('bookingcut')->with('succes', 'data berhasil diupdate');
     }
 

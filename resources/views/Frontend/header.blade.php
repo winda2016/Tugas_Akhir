@@ -23,22 +23,23 @@
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class=" d-none d-lg-inline text-white small">{{Auth::user()->nama}}</span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in text-left" aria-labelledby="userDropdown">
                         <div class="dropdown-divider"></div>
                         <form action="{{url('logout') }}" method="post">
                             @csrf
                             <button type="submit" class="btn dropdown-item">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw text-gray-400"></i>
                                 Logout
                             </button>
                         </form>
                         <form action="{{url('logout') }}" method="post">
                             @csrf
                             <button type="submit" class="btn dropdown-item">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw text-gray-400"></i>
                                 Profile
                             </button>
                         </form>
+                        <a href="{{url('info_pesanan')}}" class="dropdown-item">Info Pesanan</a>
                     </div>
                 </li>
                 @else

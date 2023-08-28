@@ -53,6 +53,7 @@
                                 <th class="align-middle">Durasi</th>
                                 <th class="align-middle">Jam Selesai</th>
                                 <th class="align-middle">Total Harga</th>
+                                <th class="align-middle">Bukti Pembayaran</th>
                                 <th class="align-middle">Status</th>
                                 <th class="align-middle">Opsi</th>
                             </tr>
@@ -81,8 +82,13 @@
                                 </td>
                                 <td>Rp {{number_format($booking_cut->total_harga, 0, ',',)}}</td>
                                 <td>
-                                    @if($booking_cut->status === 1)
+                                    <img src="{{ asset('images/'.$booking_cut->gambar)}}" alt="" width="50" height="50">
+                                </td>
+                                <td>
+                                    @if($booking_cut->status === 2)
                                     <div class="badge badge-success">Sudah bayar</div>
+                                    @elseif($booking_cut->status === 1)
+                                    <div class="badge badge-primary">Proses</div>
                                     @else
                                     <div class="badge badge-danger">Belum bayar</div>
                                     @endif

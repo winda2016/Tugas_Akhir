@@ -7,8 +7,10 @@ use App\Models\Angkatan;
 use App\Models\Bookingaca;
 use App\Models\Course;
 use App\Models\Layanan;
+use App\Models\Pendapatan;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class Booking_academyController extends Controller
 {
@@ -18,13 +20,12 @@ class Booking_academyController extends Controller
     public function index()
     {
         $bookingaca = Bookingaca::where('cek_kelengkapan', 1)
-        ->get();
+            ->get();
 
         // dd($bookingaca);
         return view('backend.booking_academy.index', [
-            'booking_academys' =>$bookingaca
+            'booking_academys' => $bookingaca
         ]);
-
     }
 
     /**
@@ -94,17 +95,38 @@ class Booking_academyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $bookingaca = Bookingaca::findOrFail($id);
-        $request->validate([
-            'status' => 'required',
+        try {
+            $bookingaca = Bookingaca::findOrFail($id);
 
-        ]);
+            $request->validate([
+                'status' => 'required',
+            ]);
 
-        $bookingaca->update([
-            'status' => $request->input('status'),
+            $oldStatus = $bookingaca->status;
+            $newStatus = $request->input('status');
 
-        ]);
+            $bookingaca->update([
+                'status' => $newStatus,
+            ]);
 
+            // Jika status berubah menjadi 2 dan sebelumnya bukan 1
+            if ($newStatus == 2 && $oldStatus != 2) {
+                $tanggal = $bookingaca->tanggal; // Ambil tanggal dari bookingaca
+
+                // Ambil total bayar dari semua pemesanan dengan status 2 pada tanggal tertentu
+                $totalBayar = Bookingaca::where('status', 2)
+                    ->where('tanggal', $tanggal)
+                    ->sum('total');
+
+                // Simpan total bayar ke dalam tabel "pendapatan"
+                Pendapatan::updateOrCreate(
+                    ['tanggal' => $tanggal, 'layanan_id' => $bookingaca->layanan_id],
+                    ['total_pendapatan' => $totalBayar]
+                );
+            }
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
         return redirect('data_academy')->with('succes', 'data berhasil diupdate');
     }
 

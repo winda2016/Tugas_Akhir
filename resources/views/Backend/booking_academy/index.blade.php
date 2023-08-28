@@ -49,6 +49,7 @@
                                 <th class="align-middle">Angkatan</th>
                                 <th class="align-middle">Course</th>
                                 <th class="align-middle">Total</th>
+                                <th class="align-middle">Bukti Pembayaran</th>
                                 <th class="align-middle">Status</th>
                                 <th class="align-middle">Opsi</th>
                             </tr>
@@ -64,10 +65,15 @@
                                 <td>{{$booking_academy->angkatan->nama_angkatan ?? '-'}}</td>
                                 <td>{{$booking_academy->course->nama_course ?? '-'}}</td>
                                 <td>{{number_format($booking_academy->total, 0, ',',)}}</td>
-                               
                                 <td>
-                                    @if($booking_academy->status === 1)
+                                    <img src="{{ asset('images/'.$booking_academy->gambar)}}" alt="" width="50" height="50">
+                                </td>
+
+                                <td>
+                                    @if($booking_academy->status === 2)
                                     <div class="badge badge-success">Sudah bayar</div>
+                                    @elseif($booking_academy->status === 1)
+                                    <div class="badge badge-primary">Proses</div>
                                     @else
                                     <div class="badge badge-danger">Belum bayar</div>
                                     @endif

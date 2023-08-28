@@ -13,13 +13,15 @@ return new class extends Migration
     {
         Schema::create('booking_academys', function (Blueprint $table) {
             $table->id();
+            $table->date('tanggal')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('layanan_id')->nullable();
             $table->unsignedBigInteger('angkatan_id')->nullable();
             $table->unsignedBigInteger('course_id')->nullable();
             $table->integer('total')->nullable();
-            $table->boolean('status')->default(0);
-            $table->boolean('cek_kelengkapan')->default(0);
+            $table->string('gambar')->nullable();
+            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('cek_kelengkapan')->default(0);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -15,11 +15,15 @@
                     <form class="forms-sample" action="/bookingcut/{{$bookingcut->id}}" method="POST" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
+                        <div class="text-center mx-auto">
+                            <img src="{{ asset('images/'.$bookingcut->gambar)}}" style="width: 50%;">
+                        </div>
                         <div class="form-group">
                             <label for="exampleInputUsername1">Status</label>
                             <select class="form-control" data-hide-search="true" data-placeholder="Pilih Status Pembayaran" name="status">
                                 <option value="">Select status...</option>
-                                <option value="1">Sudah Bayar</option>
+                                <option value="2">Sudah Bayar</option>
+                                <option value="1">Proses</option>
                                 <option value="0">Belum Bayar</option>
                             </select>
                         </div>

@@ -48,7 +48,7 @@
         Transaksi
     </div>
     <li class="nav-item">
-        <a class="nav-link" href="/uang_masuk">
+        <a class="nav-link" href="/pendapatan">
             <i class="fa-regular fa-folder"></i>
             <span>Data Pembayaran</span>
         </a>

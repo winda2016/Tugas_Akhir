@@ -21,8 +21,9 @@ return new class extends Migration
             $table->double('total_durasi')->nullable();
             $table->time('jam_selesai')->nullable();
             $table->double('total_harga', 8, 0)->nullable();
-            $table->boolean('status')->default(0);
-            $table->boolean('cek_kelengkapan')->default(0);
+            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('cek_kelengkapan')->default(0);
+            $table->string('gambar')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

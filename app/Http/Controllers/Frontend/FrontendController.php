@@ -173,7 +173,7 @@ class FrontendController extends Controller
             'cek_kelengkapan' => 1
         ]);
 
-        return redirect('/')->with('success', 'Booking berhasil diperbarui.');
+        return redirect('/info_pesanan')->with('success', 'Booking berhasil diperbarui.');
     }
 
     public function pilih_course()
@@ -246,10 +246,69 @@ class FrontendController extends Controller
             $booking_academy = Bookingaca::where('id', $id_booking);
             $booking_academy->update([
                 'angkatan_id' => $selectedBatchId,
-                'cek_kelengkapan' => 1
+                'cek_kelengkapan' => 1,
+                'tanggal' => now()
             ]);
         }
 
-        return redirect('/');
+        return redirect('/info_pesanan');
+    }
+
+    public function get_konfirmasi_pesanan()
+    {
+        $user = Auth::user()->id;
+        $booking_academy = Bookingaca::where('user_id', $user)
+            ->where('cek_kelengkapan', 1)
+            ->where('status', '<>', 2)->get();
+        $booking_cut = Bookingcut::where('user_id', $user)
+            ->where('cek_kelengkapan', 1)
+            ->where('status','<>',2)
+            ->get();
+        return view('frontend.info_pesanan', [
+            'booking_academy' => $booking_academy,
+            'booking_cut' => $booking_cut,
+        ]);
+    }
+
+    public function konfirmasi_pembayaran_academy(Request $request, $id) {
+        $booking_aca = Bookingaca::findOrFail($id);
+        // dd($booking_aca);
+        $request->validate([
+            'gambar' => 'required|image',
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            $image = $request->file('gambar');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+        }
+
+        $booking_aca->update([
+            'gambar' => $imageName,
+            'status' => 1
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function konfirmasi_pembayaran_haircut(Request $request, $id) {
+        $booking = Bookingcut::findOrFail($id);
+        // dd($booking_aca);
+        $request->validate([
+            'gambar' => 'required|image',
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            $image = $request->file('gambar');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+        }
+
+        $booking->update([
+            'gambar' => $imageName,
+            'status' => 1
+        ]);
+
+        return redirect()->back();
     }
 }
